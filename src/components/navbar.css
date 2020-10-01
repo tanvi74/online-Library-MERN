@@ -1,0 +1,17 @@
+ul{
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.logoutButton{
+    margin-left: 20px;
+}
+
+.linksOfLibrarian{
+    margin-left: 20px;   
+}
+
+.userEmail{
+    font-weight: 400;
+    font-size: 25px;
+}

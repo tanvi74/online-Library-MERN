@@ -1,0 +1,33 @@
+.heading123{
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: wheat; 
+  font-size: 23px
+}
+
+.content123{
+  color: white;
+  text-align: justify;
+  font-size: 19px;
+}
+
+.imageUrl{
+  width: 50%;
+    height: 300px;
+    border-radius: 10px;
+    margin-bottom:20px;
+}
+
+.bookingBtn{
+  margin-top: 50px;
+  font-size: large;
+  font-weight: bold;
+  background-color: green;
+}
+
+.notAvailableBtn{
+  margin-top: 50px;
+  font-size: large;
+  font-weight: bold;
+  background-color: red;
+}
