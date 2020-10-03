@@ -64,7 +64,7 @@ class addNewBook extends Component {
         console.log(this.props.auth)
         return (
             <>
-                <div className="defaultHero">
+                <div className="defaultHero libraryHero">
                     <div className="banner">
                         <h1>Add New Book</h1>
                     </div>

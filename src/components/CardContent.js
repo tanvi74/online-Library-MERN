@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import swal from 'sweetalert';
 import './CardContent.css';
+import {connect} from 'react-redux';
 
-export default class CardContent extends Component {
+class CardContent extends Component {
 
     accepted = async()=>{
         const url = `${window.apiHost}/book/update-status`;
@@ -11,7 +12,11 @@ export default class CardContent extends Component {
             email: this.props.email,
             bookId: this.props.bookId,
             request: this.props.request,
-            status: "ACCEPT"
+            status: "ACCEPT",
+            adminId: this.props.auth.email,
+            bookName: this.props.bookName,
+            name: this.props.name,
+            adminName: this.props.auth.name
         }
         const resp = await axios.post(url,data);
         console.log(resp.data);
@@ -32,7 +37,11 @@ export default class CardContent extends Component {
             email: this.props.email,
             bookId: this.props.bookId,
             request: this.props.request,
-            status: "DECLINE"
+            status: "DECLINE",
+            adminId: this.props.auth.email,
+            bookName: this.props.bookName,
+            name: this.props.name,
+            adminName: this.props.auth.name
         }
         const resp = await axios.post(url,data);
         console.log(resp.data);
@@ -70,7 +79,10 @@ export default class CardContent extends Component {
                                             <hr />
                                             {this.props.status==="ACCEPT"
                                                 ? <div><span className="history-status" style={{color:"green"}}>{this.props.status}</span></div>
-                                                : <div><span className="history-status" style={{color:"red"}}>{this.props.status}</span></div>
+                                                : this.props.status==="PENDING"
+                                                  ? <div><span className="history-status" style={{color:"blue"}}>{this.props.status}</span></div>
+                                                  : <div><span className="history-status" style={{color:"red"}}>{this.props.status}</span></div>
+                                                   
                                             }
                                             
                                     </>
@@ -84,3 +96,11 @@ export default class CardContent extends Component {
         )
     }
 }
+
+function mapStateToProps(state){
+    return{
+        auth: state.auth
+    }
+}
+
+export default connect(mapStateToProps)(CardContent)

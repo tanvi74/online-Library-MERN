@@ -5,7 +5,7 @@ class userDashboard extends Component {
     render() {
         return (
             <>
-                <div className="defaultHero">
+                <div className="defaultHero userHero">
                     <div className="banner">
                         <h1>Student Dashboard</h1>
                     </div>

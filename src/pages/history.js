@@ -34,7 +34,7 @@ class history extends Component {
         
         return (
             <>
-                <div className="defaultHero">
+                <div className="defaultHero userHero">
                     <div className="banner">
                         <h1>History of Requests</h1>
                     </div>

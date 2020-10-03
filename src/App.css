@@ -77,6 +77,15 @@ body{
   justify-content: center;
   border-bottom: 7px solid gray;
 }
+
+.userHero{
+  background: url("./image/bkg2.jpg") no-repeat !important;
+}
+
+.libraryHero{
+  background: url("./image/bkg3.jpg")  !important;
+}
+
 /* Navbar */
 .navbar {
   position: fixed;

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const BookRequest = require('../models/Requests');
 const Book = require('../models/Book');
+var nodemailer = require('nodemailer');
 
 router.post('/send-request', async(req,res)=>{
     console.log(req.body);
@@ -19,6 +20,13 @@ router.post('/send-request', async(req,res)=>{
            findBook.status = "PENDING";
            findBook.save();
            res.json({status: "returnRequestSuccess"})
+
+           const email = req.body.email;
+           const name = req.body.name;
+           const bookName = req.body.bookName;
+           const request = req.body.request;
+           sendRequest(email,name,bookName,request);
+
        }else  if(findBook12){
         findBook12.status = "PENDING";
         findBook12.save();
@@ -29,7 +37,8 @@ router.post('/send-request', async(req,res)=>{
         }
     }else if(req.body.request==="BOOK"){
         const requestMade = await BookRequest.findOne({bookId: req.body.id, email: req.body.email, request: "RETURN", status: "PENDING" });
-        const alreadyBook = await BookRequest.findOne({bookId: req.body.id, email: req.body.email, request: "BOOK"});
+        const alreadyBook = await BookRequest.findOne({bookId: req.body.id, email: req.body.email, request: "BOOK", status:"ACCEPT"});
+        const alreadyBookDeclined = await BookRequest.findOne({bookId: req.body.id, email: req.body.email, request: "BOOK", status:"DECLINE"});
         if(requestMade){
             return  res.json({
                 status: "returnPending",
@@ -38,7 +47,12 @@ router.post('/send-request', async(req,res)=>{
             return res.json({
                 status: "alreadyBooked"
             })
-        }else{
+        }else if(alreadyBookDeclined){
+            alreadyBookDeclined.status = "PENDING";
+            alreadyBookDeclined.save();
+            res.json({status: "booked"})
+        }
+        else{
             const bookRequest = new BookRequest({
                 bookId: req.body.id,
                 name: req.body.name,
@@ -48,10 +62,17 @@ router.post('/send-request', async(req,res)=>{
                 bookName: req.body.bookName
             });
             const savedbook = await bookRequest.save();  
-
-            return res.json({
+            res.json({
                 status: "booked"
             })
+
+            const email = req.body.email;
+            const name = req.body.name;
+            const bookName = req.body.bookName;
+            const request = req.body.request;
+            sendRequest(email,name,bookName,request);
+
+            
         }
     }
 
@@ -127,6 +148,106 @@ router.post('/update-status', async(req,res)=>{
         })
 
     }
+
+    const adminId = req.body.adminId;
+    const bookName = req.body.bookName;
+    const status = req.body.status;
+    const request = req.body.request;
+    const name = req.body.name;
+    const email = req.body.email;
+    const adminName = req.body.adminName;
+    sendMAILtoLibrarian(adminId,bookName,status,request,name,email, adminName)
+    sendMAILtoUser( bookName, status, request, email, name, adminName)
+
 })
+
+function sendMAILtoUser( bookName, status, request, email, name, adminName) {
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: '1t2a3n4v5i@gmail.com',
+        pass: 'tanvi74@#',
+      },
+    });
+  
+    var mailOptions = {
+      from: '1t2a3n4v5i@gmail.com',
+      to: email,
+      subject: 'Response to Requests',
+      html:
+       `<div>Hi ${name}</div><div>You ${request} request has been ${status}ED for the book ${bookName} by the ADMIN ${adminName}.</div>`,
+    };
+  
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+}
+
+function sendMAILtoLibrarian(adminId,bookName,status,request,name,email,adminName) {
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: '1t2a3n4v5i@gmail.com',
+        pass: 'tanvi74@#',
+      },
+    });
+  
+    var mailOptions = {
+      from: '1t2a3n4v5i@gmail.com',
+      to: adminId,
+      subject: 'Reaction To Request',
+      html:
+        `<div>Hi ${adminName}, </div> <div>You had ${status}ED the ${request} request for the book ${bookName} reuested by ${name}. Email-Id: ${email} </div>`,
+    };
+  
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+}
+
+
+function sendRequest(email,name,bookName,request) {
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: '1t2a3n4v5i@gmail.com',
+        pass: 'tanvi74@#',
+      },
+    });
+  
+    var mailOptions = {
+      from: '1t2a3n4v5i@gmail.com',
+      to: email,
+      subject: `${request} Request`,
+      html:
+        `<div>Hi ${name}, </div> <div>Your ${request} request for the book ${bookName} is received. Will notify you the update on your request</div>`,
+    };
+  
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+}
+
 
 module.exports = router

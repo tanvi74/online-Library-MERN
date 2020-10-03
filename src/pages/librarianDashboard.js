@@ -6,7 +6,7 @@ class librarianDashboard extends Component {
         
         return (
             <>
-                <div className="defaultHero">
+                <div className="defaultHero libraryHero">
                     <div className="banner">
                         <h1>Librarian Dashboard</h1>
                     </div>
