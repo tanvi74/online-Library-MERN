@@ -31,3 +31,8 @@
   font-weight: bold;
   background-color: red;
 }
+
+.bookingBtn:hover{
+  background-color: white !important;
+  color: black !important;
+}

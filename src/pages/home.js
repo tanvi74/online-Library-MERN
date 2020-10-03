@@ -16,7 +16,13 @@ class home extends Component {
         }
         return (
             <div>
-                <h1 style={{color: "white"}}>HomePage</h1>
+                <div className="defaultHero">
+                    
+                    <div className="banner">
+                        <h1>Welcome To Library</h1>
+                    </div>
+                </div>
+                {/* <h1 style={{color: "white"}} className="backgroungPics"><span className="heading">Welcome To Library</span></h1> */}
                     <BookPage />
             </div>
         )

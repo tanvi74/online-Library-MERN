@@ -48,7 +48,7 @@ export default class BookPage extends Component {
             )
         })
         return (
-                <div style={{color:"white", marginTop: 100}} className="row">
+                <div style={{color:"white", marginTop: 40}} className="row">
                         {bookImagesUrl}
                 </div>
             

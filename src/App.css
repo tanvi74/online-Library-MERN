@@ -41,3 +41,127 @@ body{
     transform: rotate(360deg);
   }
 }
+
+.banner {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--mainWhite);
+  padding: 2rem 1rem;
+  text-align: center;
+  text-transform: capitalize;
+  letter-spacing: var(--mainSpacing);
+}
+.banner h1 {
+  font-size: 2.5rem;
+  color: white;
+  font-size: 72px;
+    font-weight: 300;
+}
+.banner div {
+  width: 10rem;
+  height: 5px;
+  background: var(--primaryColor);
+  margin: 1.7rem auto;
+}
+.banner p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+.defaultHero,
+.roomsHero {
+  min-height: calc(100vh - 66px);
+  background: url("./image/bkg1.jpg") no-repeat;
+  background-size: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 7px solid gray;
+}
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-bottom: 77px;
+  background-color: wheat;
+  /* background: var(--offWhite); */
+  z-index: 1;
+}
+.nav-header {
+  display: flex;
+  justify-content: space-between;
+}
+.nav-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+.nav-icon {
+  font-size: 1.5rem;
+color:white;
+}
+.nav-links {
+  height: 0;
+  overflow: hidden;
+  transition: var(--mainTransition);
+  list-style-type: none;
+}
+.nav-links a {
+  display: block;
+  text-decoration: none;
+  padding: 1rem 0;
+  color: var(--mainBlack);
+  transition: var(--mainTransition);
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: var(--mainSpacing);
+}
+.nav-links a:hover {
+  color: var(--primaryColor);
+}
+
+.show-nav {
+  height: 130px;
+}
+@media screen and (min-width: 780px) {
+  .nav-btn {
+    display: none;
+  }
+  /* .nav-center {
+    max-width: 1170px;
+    margin: 0 auto;
+    display: flex;
+  } */
+  .nav-links {
+    height: auto;
+    /* display: flex; */
+    margin-left: 2rem;
+  }
+  .nav-links a {
+    margin: 0 1rem;
+    padding: 0.5rem 0;
+  }
+}
+
+.homesignupbutton{
+  margin: 10px;
+}
+/* end of navbar */
+
+.linksOfLibrarian{
+  padding-top: 0 !important;
+}
+
+.userEmail{
+  color:black;
+  font-size: 30px !important;
+  letter-spacing: 2px !important;
+  cursor: pointer;
+}
+
+.logoutButton{
+  font-weight: bold;
+}

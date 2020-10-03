@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import './SinglePageComp.css';
 import {connect} from 'react-redux';
+import swal from 'sweetalert';
 
 class SingleBookPage extends Component {
     state = {
@@ -22,16 +23,97 @@ class SingleBookPage extends Component {
             bookDetail: resp.data.bookDetail
         })
         console.log(resp.data);
+    }
+
+
+    sendRequest = async() => {
+        const url = `${window.apiHost}/book/send-request`;
+        const data = {
+            status: "PENDING",
+            request: "BOOK",
+            id: this.props.match.params.bookId,
+            name: this.props.auth.name,
+            email: this.props.auth.email,
+            bookName: this.state.bookDetail.title
+        }
+        console.log(data);
+        const resp = await axios.post(url,data);
+        console.log(resp.data);
+        if(resp.data.status === "alreadyBooked"){
+            swal({
+                title : "Book Request Failed",
+                text: "You can't book the same book twice.",
+                icon: "error",
+              })
+        
+        }else if(resp.data.status === "returnPending"){
+            swal({
+                title : "Book Request Failed",
+                text: "Your return request is pending.",
+                icon: "error",
+              })
+        }
+        else if(resp.data.status === "booked"){
+            swal({
+                title: "Request sent to librarian",
+                text: "We will notify you the update on your mail.",
+                icon: "success",
+              })    
+        }
 
     }
 
+    returnRequest = async() => {
+        const url = `${window.apiHost}/book/send-request`;
+        const data = {
+            status: "PENDING",
+            request: "RETURN",
+            id: this.props.match.params.bookId,
+            name: this.props.auth.name,
+            email: this.props.auth.email,
+            bookName: this.state.bookDetail.title
+        }
+        console.log(data);
+        const resp = await axios.post(url,data);
+        console.log(resp.data);
+        if(resp.data.status === "bookRequestInQueue"){
+            swal({
+                title: "Return Request Failed. You don't owe the book",
+                text: "Your Book request is in queue. Please wait until it is granted then you can place the return request",
+                icon: "error",
+              })
+        
+        }else if(resp.data.status === "returnRequestFailed"){
+            swal({
+                title: "Return Request Failed.",
+                text: "either you don't owe it or your return request is pending.",
+                icon: "error",
+              })
+        }
+        else if(resp.data.status === "returnRequestSuccess"){
+            swal({
+                title: "Request sent to librarian",
+                text: "We will notify you the update on your mail.",
+                icon: "success",
+              })    
+        }
+    }
+
+    notAvailable = () => {
+        console.log("NOT AVAILABLE")
+    }
     
     render() {
         console.log(this.state.bookDetail)
         const book = this.state.bookDetail;
         return (
-            <div className="content123 container">
-                <h1 style={{color:"white", textAlign:"center"}}>Book Details</h1>
+            <>
+                <div className="defaultHero">
+                    <div className="banner">
+                        <h1>Book Details</h1>
+                    </div>
+                </div>
+                <div className="content123 container" style={{marginTop: 50}}>
                     <div className="row">
                         <div className="col s12 m6 s6">
                             <div className=""><span className="heading123">Title </span>: {book.title}</div>
@@ -54,11 +136,12 @@ class SingleBookPage extends Component {
                             ? book.quantity>0
                                 ?
                                 <>
-                                    <div className="btn-large bookingBtn">Book Now</div>
+                                    <div className="btn-large bookingBtn" onClick={this.sendRequest}>Book Now</div>
+                                    <div className="btn-large bookingBtn" onClick={this.returnRequest} style={{marginLeft: 20}}>RETURN Now</div>
                                 </>
                                 :
                                 <>
-                                     <div className="btn-large notAvailableBtn">Sorry! Not Available</div>
+                                     <div className="btn-large notAvailableBtn" onClick={this.notAvailable}>Sorry! Not Available</div>
                                 </>
                             :
                                 null
@@ -66,6 +149,8 @@ class SingleBookPage extends Component {
                         </div>
                     </div>
             </div>
+            </>
+            
         )
     }
 }

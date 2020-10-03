@@ -47,7 +47,7 @@ router.post('/bookDetail', async(req,res)=>{
     console.log(req.body);
 
     const bookDetail = await Book.findOne({_id: req.body.id});
-    console.log(bookDetail);
+    // console.log(bookDetail);
     res.json({
         bookDetail: bookDetail
     })

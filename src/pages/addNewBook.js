@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { Redirect } from "react-router";
 import axios from 'axios';
 import swal from 'sweetalert';
 
@@ -62,17 +61,19 @@ class addNewBook extends Component {
     }
 
     render() {
-        if(!this.props.auth.token){
-            return(
-                <Redirect to="/" />
-            )
-        }
+        console.log(this.props.auth)
         return (
-            <div className="container">
+            <>
+                <div className="defaultHero">
+                    <div className="banner">
+                        <h1>Add New Book</h1>
+                    </div>
+                </div>
+                <div className="container">
                      <div className="row ">
                             {/* <div className="col l3" style={{backgroundColor:"black"}}>dagfshngxmgnfhgdfzdgfxgngfz</div> */}
                                     <div className="col s12" >
-                                    <h4 style={{color:"white"}}>Add a New Book</h4>
+                                    
                                 <div className="card card-login" style={{marginTop: 43}}>
                                     <div className="card-content">
                                         
@@ -149,6 +150,7 @@ class addNewBook extends Component {
                  
                             </div>
             </div>
+            </>
            
         )
     }

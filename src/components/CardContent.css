@@ -1,0 +1,37 @@
+.history-bookName{
+    font-weight: 400;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    font-size:20px;
+}
+
+.history-request{
+    font-size: 18px;
+}
+
+.history-status{
+    font-weight: bold;
+    font-size: 20px;
+}
+.title{
+    font-size:18px;
+    font-weight: 600;
+}
+
+.acceptBtn{
+    background-color: green;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.declineBtn{
+    background-color: red;
+    margin-left: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.btn-large:hover{
+    background-color: black;
+    color: white;
+  }

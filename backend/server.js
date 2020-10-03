@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 // Import Routes
 const authRoute= require('./routes/auth');
 const addBookRoute = require('./routes/addbook');
+const BookRequestRoute = require('./routes/rentBook');
 
 // Connect to db
 mongoDb();
@@ -23,5 +24,6 @@ app.use(cors());
 // Route Middlewares
 app.use('/api/user', authRoute);
 app.use('/admin', addBookRoute);
+app.use('/book',BookRequestRoute);
 
 app.listen(5000, ()=> console.log("Server is running") )
