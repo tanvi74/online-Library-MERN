@@ -39,11 +39,14 @@ router.post('/send-request', async(req,res)=>{
         const requestMade = await BookRequest.findOne({bookId: req.body.id, email: req.body.email, request: "RETURN", status: "PENDING" });
         const alreadyBook = await BookRequest.findOne({bookId: req.body.id, email: req.body.email, request: "BOOK", status:"ACCEPT"});
         const alreadyBookDeclined = await BookRequest.findOne({bookId: req.body.id, email: req.body.email, request: "BOOK", status:"DECLINE"});
+        const pendingRequest = await BookRequest.findOne({bookId: req.body.id, email: req.body.email, request: "BOOK", status:"PENDING"});
+
+
         if(requestMade){
             return  res.json({
                 status: "returnPending",
             });
-        }else if(alreadyBook){
+        }else if(alreadyBook || pendingRequest){
             return res.json({
                 status: "alreadyBooked"
             })
